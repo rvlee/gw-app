@@ -1,0 +1,90 @@
+.card-entries {
+  font-size: 15px;
+  vertical-align: top;
+  width: 20%;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .card-entries {
+    width: 25%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .card-entries {
+    width: 33%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .card-entries {
+    width: 50%;
+  }
+}
+
+.card-name {
+  width: 85%;
+}
+
+.modal-container {
+  top: 5%;
+  left: 25%;
+  position: absolute;
+  width: 740px;
+  height: 470px;
+  font-size: 12px;
+  background-color: white;
+  border: 2px solid #000;
+  box-shadow: black;
+  padding: 2px 4px;
+  overflow-y: scroll;
+}
+
+.modal-container tr th {
+  background-color: lightsalmon;
+  border: 1px solid black;
+}
+
+.modal-container tr td {
+  border: 1px solid black;
+}
+
+.modal-table #table-header {
+  background-color: gray;
+}
+
+.modal-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+.row-content {
+  display: inline-block;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  box-sizing: border-box;
+  vertical-align: top;
+  text-align: center;
+}
+
+.modal-table-wrapper {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black; 
+}
+
+.row-image {
+  padding: 5px;
+}
+
+.bottom-row-content {
+  border-top: 1px solid black;
+}
+
+.top-row-content {
+  background-color: #ffc;
+}
+
