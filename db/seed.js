@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const URI = 'mongodb://localhost/gwNEXA';
 mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
-var gwnCards = require('../../scraper/gwn.json');
+var gwnCards = require('../scraper/gwn.json');
 
 //seeding to databse
 let bulkUpdateOps = [];

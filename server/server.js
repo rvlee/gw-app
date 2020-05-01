@@ -28,7 +28,6 @@ app.get('/nexacards', (req, res) => {
     }
     return obj;
   }
-  console.log('req', req.query)
   // let filteredQuery = clean(Object.assign({}, req.query));
   let filteredQuery = {
     type: 'UNIT',
@@ -53,7 +52,6 @@ app.post('/makedeck', (req, res) => {
   const { userName, decks } = req.body
   UserProfile.findOneAndUpdate({userName: userName}, {$push: {decks: decks}}, {new: true}, (err, result) => {
     if (err) throw err;
-    console.log(result)
     res.send('success!!')
   })
 })

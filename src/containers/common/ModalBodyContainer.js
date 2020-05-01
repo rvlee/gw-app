@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateDeckAction } from '../../actions/deck';
+import { updateDeckQuantity } from '../../actions/deck';
 import ModalBody from '../../components/common/ModalBody';
 
-const mapDispatchToProps = { updateDeckAction };
+const mapDispatchToProps = { updateDeckQuantity };
 
 const mapStateToProps = (state) => {
   return {
-    deckList: state.deck.newDeckData
+    deckList: state.deck.newDeckData,
+    cardData: state.card.selectedEntry
   };
 }
 

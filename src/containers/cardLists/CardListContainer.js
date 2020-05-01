@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getEntryAction } from '../../actions/card';
-import { updateDeckAction } from '../../actions/deck';
+import { updateDeckQuantity } from '../../actions/deck';
 import CardList from '../../components/cardLists/CardList';
 
 const mapStateToProps = (state) => {
@@ -10,6 +10,6 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = { getEntryAction, updateDeckAction};
+const mapDispatchToProps = { getEntryAction, updateDeckQuantity};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardList);

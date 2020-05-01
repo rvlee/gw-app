@@ -5,7 +5,7 @@ require('../../css/card.css');
 const CardList = ({
   cardData, 
   openModal,
-  updateDeckAction,
+  updateDeckQuantity,
   canEdit,
   getEntryAction,
   deckList
@@ -13,8 +13,8 @@ const CardList = ({
   const cardList = cardData.map((card, index)=> {
     return (
       <div className='card-entries' key={index}>
-        {canEdit ? <button onClick={()=>{updateDeckAction(getNewDeck(deckList, card, 1))}}>+</button> : null}
-        {canEdit ? <button onClick={()=>{updateDeckAction(getNewDeck(deckList, card, -1))}}>-</button> : null}
+        {canEdit ? <button onClick={()=>{updateDeckQuantity(getNewDeck(deckList, card, 1))}}>+</button> : null}
+        {canEdit ? <button onClick={()=>{updateDeckQuantity(getNewDeck(deckList, card, -1))}}>-</button> : null}
         <br/>
         <img 
           onClick={() => {openModal(); getEntryAction(card)}} 

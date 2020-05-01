@@ -7,9 +7,10 @@ const ModalBody = ({
   cardData,
   deckList,
   dataStructure,
-  updateDeckAction,
+  updateDeckQuantity,
   canEdit
 }) => {
+  console.log('modalbody', cardData)
   const renderBody = () => {
     const mapping = (arr, height, align, headerHeight) => {
       if (Array.isArray(arr) || Array.isArray(arr.rowData)) {
@@ -62,8 +63,8 @@ const ModalBody = ({
         <div className="modal-table-wrapper">
           {mapping(dataStructure)}
         </div>
-        {canEdit ? <button onClick={()=>{updateDeckAction(getNewDeck(deckList, cardData, 1))}}> Add to Deck </button> : null}
-        {canEdit ? <button onClick={()=>{updateDeckAction(getNewDeck(deckList, cardData, -1))}}> Remove From Deck </button> : null}
+        {canEdit ? <button onClick={()=>{updateDeckQuantity(getNewDeck(deckList, cardData, 1))}}> Add to Deck </button> : null}
+        {canEdit ? <button onClick={()=>{updateDeckQuantity(getNewDeck(deckList, cardData, -1))}}> Remove From Deck </button> : null}
       </React.Fragment>
     )
   }

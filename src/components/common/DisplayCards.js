@@ -22,7 +22,7 @@ class DisplayCards extends React.Component {
   }
 
   renderCards = () => {
-    const { deckData, canEdit } = this.props;
+    const { deckData, canEdit, selectedDeck } = this.props;
     let deckArray = [];
     for(let key in deckData) {
         const times = deckData[key].quantity ? deckData[key].quantity : 1;
@@ -42,7 +42,6 @@ class DisplayCards extends React.Component {
   render() {
     const { open } = this.state;
     const { selectedEntry, canEdit } = this.props
-    console.log('canedit', canEdit)
     return (
       <div>
         {this.renderCards()}
@@ -52,7 +51,6 @@ class DisplayCards extends React.Component {
       >
         <ModalBody 
           canEdit={canEdit}
-          cardData={selectedEntry}
           dataStructure={MODALSTRUCTURE}
         />
       </Modal>

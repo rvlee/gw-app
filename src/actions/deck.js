@@ -2,7 +2,7 @@ import { UPDATE_DECK, GET_DECK_LIST, DELETE_DECK, SELECTED_DECK } from '../const
 import { DOMAIN } from '../constants/url';
 import axios from 'axios';
 
-export const updateDeckAction = (deck) => {
+export const updateDeckQuantity = (deck) => {
   return {
     type: UPDATE_DECK,
     deck,
@@ -32,16 +32,15 @@ export const deleteDeck = (payload) => {
   }
 }
 
-export const deleteDeckAPI = (id, userName) => {
+export const deleteDeckAPI = (deckId, userName) => {
   return (dispatch) => {
-    return axios.delete(`${URI}/deletedeck`,
+    return axios.delete(`${DOMAIN}/deletedeck`,
       {
         params: {deckId, userName}
-      }
+      })
       .then(res => {
         getDecks()
       })
-    )
   }
 }
 
