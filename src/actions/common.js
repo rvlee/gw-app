@@ -1,8 +1,13 @@
-import { CURRENT_VIEW } from '../constants/actionTypes';
+import {
+  CURRENT_VIEW, CAN_EDIT,
+} from '../constants/actionTypes';
 
-export const getCurrentView = (payload) => {
-  return {
-    type: CURRENT_VIEW,
-    payload
-  }
-};
+export const getCurrentView = (payload) => ({
+  type: CURRENT_VIEW,
+  payload,
+});
+
+export const toggleEditDeck = (payload) => ({
+  type: CAN_EDIT,
+  payload,
+});

@@ -1,33 +1,57 @@
 import React from 'react';
-import DisplayCards from '../common/DisplayCards';
 import Switch from '@material-ui/core/Switch';
+import DisplayCards from '../common/DisplayCards';
 
 class Deck extends React.Component {
   state = {
-    canEdit: false,
+    clearDeck: false,
   }
 
   toggleEdit = () => {
-    const { editDeck, selectedDeck } = this.props
-    this.setState({
-      canEdit: !this.state.canEdit,
-    }, () => {
-      if (!this.state.canEdit) {
-        let test = {}
-        editDeck(test)
-      } else {
-        editDeck(selectedDeck)
+    const {
+      updateDeckQuantity, selectedDeck, toggleEditDeck, canEdit, clearDeck,
+    } = this.props;
+
+    if (!canEdit) {
+      const confirmation = confirm('editing will clear your current new deck list');
+      if (confirmation) {
+        toggleEditDeck(true);
+        this.setState({
+          clearDeck: true,
+        });
+        updateDeckQuantity(selectedDeck.deckList);
       }
-    })
+    } else {
+      toggleEditDeck(false);
+      clearDeck();
+    }
+  }
+
+  editDeck = () => {
+    const {
+      canEdit, newDeckData, selectedDeck,
+    } = this.props;
+    if (canEdit) {
+      return newDeckData;
+    }
+    return selectedDeck.deckList;
   }
 
   render() {
-    const { selectedDeck, selectedEntry, toggleView, getCurrentView } = this.props
-    const { canEdit } = this.state;
-    //const formatted = Object.values(selectedDeck.deckList)
+    const {
+      selectedDeck,
+      getCurrentView,
+      updateDeckAPI,
+      newDeckData,
+      canEdit,
+    } = this.props;
+
     return (
-      <React.Fragment> 
-        <div style={{textAlign:'end'}}>
+      <React.Fragment>
+        <div style={{
+          textAlign: 'end',
+        }}
+        >
           Edit Deck
           <Switch
             checked={canEdit}
@@ -35,16 +59,16 @@ class Deck extends React.Component {
             color="primary"
           />
         </div>
-        {/* {selectedDeck.name} */}
-        <DisplayCards 
-          deckData={selectedDeck.deckList}
+        {selectedDeck && selectedDeck.name}
+        <DisplayCards
+          deckData={this.editDeck()}
           canEdit={canEdit}
 
         />
-        {canEdit ? <button className="save-button" onClick={() => {console.log('hi')}}>SAVE DECK</button> : null}
-        {canEdit ? null: <button className="return-button" onClick={() => {getCurrentView('DISPLAYDECKS')}}>Return to Decks</button>} 
+        {canEdit ? <button type="button" className="save-button" onClick={() => { updateDeckAPI(selectedDeck, newDeckData); }}>SAVE DECK</button> : null}
+        {canEdit ? null : <button type="button" className="return-button" onClick={() => { getCurrentView('DISPLAYDECKS'); }}>Return to Decks</button>}
       </React.Fragment>
-    )
+    );
   }
 }
 

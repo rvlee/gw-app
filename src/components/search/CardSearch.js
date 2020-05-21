@@ -1,9 +1,13 @@
-import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, {
+  Fragment,
+} from 'react';
 import DropDown from './DropDown';
-import { searchCards } from '../../actions/card';
-import { FILTERS } from '../../constants/filterSelections';
-import { STRUCTURE } from '../../constants/filterStructure';
+import {
+  FILTERS,
+} from '../../constants/filterSelections';
+import {
+  STRUCTURE,
+} from '../../constants/filterStructure';
 
 class CardSearch extends React.Component {
   constructor(props) {
@@ -14,26 +18,28 @@ class CardSearch extends React.Component {
       roll_cost: '',
       g_sign: '',
       color: '',
-      booster: ''
-    }
+      booster: '',
+    };
     this.baseState = this.state;
   }
 
   handleDropdown = (key, val) => {
     this.setState({
-      [key]: val
-    })
+      [key]: val,
+    });
   }
 
   reset = () => {
-    this.setState(this.baseState)
+    this.setState(this.baseState);
   }
-  
+
   isParamsEmpty = () => {
-    const { searchCards } = this.props;
+    const {
+      searchCards,
+    } = this.props;
     let check = false;
 
-    for (let key in this.state) {
+    for (const key in this.state) {
       if (this.state[key] !== '') {
         check = true;
       }
@@ -46,60 +52,57 @@ class CardSearch extends React.Component {
     // }
 
     searchCards(this.state);
-	}
+  }
 
-  renderStructure = () => {
-    return STRUCTURE.map((element, idx) => {
-      return (
-        <p key={idx}>
-          {element.map((entry, index) => {
-            let filterCmp = <div />
-            switch (entry.format) {
-              case 'INPUT':
-                filterCmp = <input type="text"/>
+  renderStructure = () => STRUCTURE.map((element, idx) => (
+    <p key={idx}>
+      {element.map((entry, index) => {
+        let filterCmp = <div />;
+        switch (entry.format) {
+          case 'INPUT':
+            filterCmp = <input type="text" />;
+            break;
+          case 'DROPDOWN':
+            filterCmp = (
+              <DropDown
+                val={this.state[entry.key]}
+                label={`${entry.key}`}
+                selections={FILTERS[entry.selections]}
+                onChange={this.handleDropdown}
+              />
+            );
+            break;
+          case 'BUTTON':
+            switch (entry.key) {
+              case 'Clear':
+                filterCmp = <button type="button" onClick={this.reset}>{entry.key}</button>;
                 break;
-              case 'DROPDOWN':
-                filterCmp = 
-                  <DropDown
-                    val={this.state[entry.key]}
-                    label={`${entry.key}`}
-                    selections={FILTERS[entry.selections]}
-                    onChange={this.handleDropdown}
-                  />
-                break;
-              case 'BUTTON':
-                switch (entry.key) {
-                  case 'Clear':
-                    filterCmp = <button onClick={this.reset}>{entry.key}</button>
-                    break;
-                  case 'Search':
-                    filterCmp = <button onClick={()=>{this.isParamsEmpty()}}>{entry.key}</button>
-                    break
-                  default:
-                    break;
-                }
+              case 'Search':
+                filterCmp = <button type="button" onClick={() => { this.isParamsEmpty(); }}>{entry.key}</button>;
                 break;
               default:
                 break;
             }
-            return (
-              <React.Fragment key={index}>
-                {entry.title}
-                {filterCmp}
-              </React.Fragment>
-            )
-          })}
-        </p>
-      )
-    })
-  }
+            break;
+          default:
+            break;
+        }
+        return (
+          <React.Fragment key={index}>
+            {entry.title}
+            {filterCmp}
+          </React.Fragment>
+        );
+      })}
+    </p>
+  ))
 
   render() {
     return (
       <Fragment>
         {this.renderStructure()}
       </Fragment>
-    )
+    );
   }
 }
 

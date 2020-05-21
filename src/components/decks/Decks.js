@@ -1,8 +1,10 @@
 import React from 'react';
-import Deck from '../../containers/decks/DeckContainer';
-//import NewDeck from './NewDeck';
-import { DECK_IMAGE_URL } from '../../constants/deck';
 import Switch from '@material-ui/core/Switch';
+import Deck from '../../containers/decks/DeckContainer';
+import NewDeck from '../../containers/decks/NewDeckContainer';
+import {
+  DECK_IMAGE_URL,
+} from '../../constants/deck';
 
 require('../../css/deck.css');
 
@@ -12,37 +14,56 @@ class Decks extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getDecks()
+    this.props.getDecks();
   }
 
   toggleEdit = () => {
-    this.setState({
-      canEdit: !this.state.canEdit,
-    })
+    this.setState((prevState) => ({
+      canEdit: !prevState.canEdit,
+    }));
   }
-  
+
+
+  deleteDeck = (deckID, userName) => {
+    const {
+      deleteDeckAPI,
+    } = this.props;
+    const confirmation = confirm('are you sure you want to delete this deck?');
+    if (confirmation) {
+      deleteDeckAPI(deckID, userName);
+    }
+  }
 
   renderDecks = () => {
-    
-    const { deckData, canEdit, toggleView } = this.state;
-    const { deckList, getDecks, selectedDeck, deleteDeckAPI, getCurrentView } = this.props;
+    const {
+      canEdit,
+    } = this.state;
+    const {
+      deckList, selectedDeck, getCurrentView,
+    } = this.props;
     const newDeckList = deckList ? deckList[0].decks : [];
     const userName = deckList ? deckList[0].userName : '';
-    const showDecks = newDeckList.map((deck, idx) => {
-      return (
-        <div className="deck-preview" key={idx}>
-          <div onClick={()=>{selectedDeck(deck); getCurrentView('SINGLEDECK')}}>
-            <img src={`${deck.deckImage !== '' ? deck.deckImage : DECK_IMAGE_URL}`} style={{width:'150px'}}/>
-            <br/>
-            {deck.name}
-          </div>
-          {canEdit ? <button onClick={() => {deleteDeckAPI(deck._id, userName)}}> Delete Deck </button> : null}
+    const showDecks = newDeckList.map((deck, idx) => (
+      <div className="deck-preview" key={idx}>
+        <div onClick={() => { selectedDeck(deck); getCurrentView('SINGLEDECK'); }}>
+          <img
+            src={`${deck.deckImage !== '' ? deck.deckImage : DECK_IMAGE_URL}`}
+            style={{
+              width: '150px',
+            }}
+          />
+          <br />
+          {deck.name}
         </div>
-      )
-    })
+        {canEdit ? <button type="button" onClick={() => { this.deleteDeck(deck._id, userName); }}> Delete Deck </button> : null}
+      </div>
+    ));
     return (
       <React.Fragment>
-        <div style={{textAlign:'end'}}>
+        <div style={{
+          textAlign: 'end',
+        }}
+        >
           Edit Decks
           <Switch
             checked={canEdit}
@@ -50,7 +71,7 @@ class Decks extends React.Component {
             color="primary"
           />
           <div>
-            <button onClick={() => {toggleView('NEWDECK')}}> Create Deck </button>
+            <button type="button" onClick={() => { getCurrentView('NEWDECK'); }}> Create Deck </button>
           </div>
         </div>
         {showDecks}
@@ -59,47 +80,35 @@ class Decks extends React.Component {
   }
 
   renderView = () => {
-    const { displayDeck, canEdit } = this.state;
-    const { editDeck, newDeckData, createDeck, selectedDeck, currentView } = this.props;
-    console.log('currentView', currentView)
-    let viewCmp = <div />
+    const {
+      editDeck, currentView,
+    } = this.props;
+    let viewCmp = <div />;
     switch (currentView) {
       case 'DISPLAYDECKS':
         viewCmp = this.renderDecks();
         break;
+
       case 'SINGLEDECK':
         viewCmp = (
-          <Deck 
+          <Deck
             editDeck={editDeck}
-            toggleView={this.toggleView}
           />
-        )
+        );
         break;
-        // case 'NEWDECK':
-        //   viewCmp = (
-        //     <NewDeck 
-        //       toggleCreate={this.toggleCreate}
-        //       createDeck={createDeck}
-        //       newDeckData={newDeckData}
-        //       toggleView={toggleView}
-        //     />
-        //   )
+      case 'NEWDECK':
+        viewCmp = (
+          <NewDeck />
+        );
+        break;
       default:
-        viewCmp = this.renderDecks();
         break;
     }
-    return (
-      <React.Fragment>
-        {viewCmp}
-      </React.Fragment>
-    )
+    return viewCmp;
   }
+
   render() {
-    return ( 
-      <React.Fragment>       
-        {this.renderView()}
-      </React.Fragment>
-    )
+    return this.renderView();
   }
 }
 
